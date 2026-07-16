@@ -1,0 +1,95 @@
+ Using the Set Operators
+ --------------------------------------------------------------------------------------------------------
+ 1. Matrix Query (Salary by Job and Department)
+SQL>SELECT JOB,
+       SUM(DECODE(DEPTNO,10,SAL,0)) AS DEPT10,
+       SUM(DECODE(DEPTNO,20,SAL,0)) AS DEPT20,
+       SUM(DECODE(DEPTNO,30,SAL,0)) AS DEPT30,
+       SUM(SAL) AS TOTAL
+FROM EMP
+GROUP BY JOB
+ORDER BY JOB;
+---------------------------------------------------------------------------------------------------------
+output:-
+------------------------------------------------------------
+JOB         DEPT10 DEPT20 DEPT30 TOTAL
+----------  ------ ------ ------ -----
+ANALYST          0   6000      0  6000
+CLERK         1300   1900    950  4150
+MANAGER       2450   2975   2850  8275
+PRESIDENT     5000      0      0  5000
+SALESMAN         0      0   5600  5600
+
+5 rows selected.
+----------------------------------------------------------------------------------------------------------------------
+2. Using Set Operators (Department Salary, Job Salary, Total Salary)
+SQL>SELECT TO_CHAR(DEPTNO) AS TYPE,
+       TO_CHAR(SUM(SAL)) AS TOTAL_SALARY
+FROM EMP
+GROUP BY DEPTNO
+
+UNION ALL
+
+SELECT JOB,
+       TO_CHAR(SUM(SAL))
+FROM EMP
+GROUP BY JOB
+
+UNION ALL
+
+SELECT 'TOTAL',
+       TO_CHAR(SUM(SAL))
+FROM EMP;
+----------------------------------------------------------------------------------------------------------
+output:-
+TYPE        TOTAL_SALARY
+----------  ------------
+10          8750
+20          10875
+30          9400
+ANALYST     6000
+CLERK       4150
+MANAGER     8275
+PRESIDENT   5000
+SALESMAN    5600
+TOTAL       29025
+
+9 rows selected.
+----------------------------------------------------------------------------------------------------------
+3. Using Set Operators (Employees in Departments 20, 10, and 30)
+SQL>SELECT JOB, DEPTNO
+FROM EMP
+WHERE DEPTNO = 20
+
+UNION ALL
+
+SELECT JOB, DEPTNO
+FROM EMP
+WHERE DEPTNO = 10
+
+UNION ALL
+
+SELECT JOB, DEPTNO
+FROM EMP
+WHERE DEPTNO = 30;
+-----------------------------------------------------------------------------------------------------------
+output:-
+JOB         DEPTNO
+----------  ------
+CLERK           20
+MANAGER         20
+ANALYST         20
+CLERK           20
+ANALYST         20
+PRESIDENT       10
+MANAGER         10
+CLERK           10
+SALESMAN        30
+SALESMAN        30
+SALESMAN        30
+MANAGER         30
+SALESMAN        30
+CLERK           30
+
+14 rows selected.
+-----------------------------------------------------------------------------------------------------------
