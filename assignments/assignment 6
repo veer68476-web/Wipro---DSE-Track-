@@ -1,0 +1,391 @@
+Hands-on Assignments for Displaying Data from Multiple Tables Using Joins
+------------------------------------------------------------------------------------------------------------------------------
+Create SALGRADE Table:-
+------------------------
+CREATE TABLE SALGRADE(
+    GRADE NUMBER,
+    LOSAL NUMBER,
+    HISAL NUMBER
+);
+--------------------------------
+INSERT DATA
+SQL> INSERT INTO SALGRADE VALUES (1,700,1200);
+
+1 row created.
+
+SQL> INSERT INTO SALGRADE VALUES (2,1201,1400);
+
+1 row created.
+
+SQL> INSERT INTO SALGRADE VALUES (3,1401,2000);
+
+1 row created.
+
+SQL> INSERT INTO SALGRADE VALUES (4,2001,3000);
+
+1 row created.
+
+SQL> INSERT INTO SALGRADE VALUES (5,3001,9999);
+
+1 row created.
+--------------------------------------------------------------------------------------------------------------
+1. NATURAL JOIN
+----------------------------------------------------------------------------------------------------------------
+SQL>SELECT EMPNO,
+       ENAME,
+       SAL,
+       DNAME,
+       LOC
+FROM EMP
+NATURAL JOIN DEPT;
+--------------------------------------------------------------------------------------------------------------
+OUTPUT:-
+EMPNO ENAME    SAL  DNAME        LOC
+----- -------- ---- ----------- ----------
+7369  SMITH     800 RESEARCH    DALLAS
+7499  ALLEN    1600 SALES       CHICAGO
+7521  WARD     1250 SALES       CHICAGO
+7566  JONES    2975 RESEARCH    DALLAS
+7654  MARTIN   1250 SALES       CHICAGO
+7698  BLAKE    2850 SALES       CHICAGO
+7782  CLARK    2450 ACCOUNTING  NEW YORK
+7788  SCOTT    3000 RESEARCH    DALLAS
+7839  KING     5000 ACCOUNTING  NEW YORK
+7844  TURNER   1500 SALES       CHICAGO
+7876  ADAMS    1100 RESEARCH    DALLAS
+7900  JAMES     950 SALES       CHICAGO
+7902  FORD     3000 RESEARCH    DALLAS
+7934  MILLER   1300 ACCOUNTING  NEW YORK
+
+14 rows selected.
+---------------------------------------------------------------------------------------------------------------
+2. SALESMAN Employees
+----------------------------------------------------------------------------------------------------------------
+SQL>SELECT JOB,
+       MGR,
+       SAL,
+       COMM,
+       DNAME
+FROM EMP E
+JOIN DEPT D
+ON E.DEPTNO=D.DEPTNO
+WHERE JOB='SALESMAN';
+---------------------------------------------------------------------------------------------------------------
+OUTPUT:-
+JOB        MGR   SAL COMM DNAME
+---------- ---- ---- ---- --------
+SALESMAN   7698 1600 300  SALES
+SALESMAN   7698 1250 500  SALES
+SALESMAN   7698 1250 1400 SALES
+SALESMAN   7698 1500 0    SALES
+
+4 rows selected.
+----------------------------------------------------------------------------------------------------------------
+3. Employees Working in Dallas
+--------------------------------------
+SQL>SELECT ENAME,
+       JOB,
+       E.DEPTNO,
+       DNAME
+FROM EMP E
+JOIN DEPT D
+ON E.DEPTNO=D.DEPTNO
+WHERE LOC='DALLAS';
+----------------------------------------------------------------------------------------------------------------
+OUTPUT:-
+ENAME  JOB      DEPTNO DNAME
+------ -------- ------ ----------
+SMITH  CLERK      20   RESEARCH
+JONES  MANAGER    20   RESEARCH
+SCOTT  ANALYST    20   RESEARCH
+ADAMS  CLERK      20   RESEARCH
+FORD   ANALYST    20   RESEARCH
+
+5 rows selected.
+----------------------------------------------------------------------------------------------------------
+4. Self Join
+------------------
+SQL>SELECT E.ENAME Employee,
+       E.EMPNO "Emp#",
+       M.ENAME Manager,
+       M.EMPNO "Mgr#"
+FROM EMP E
+JOIN EMP M
+ON E.MGR=M.EMPNO;
+-----------------------------------------------
+OUTPUT:-
+Employee Emp# Manager Mgr#
+-------- ---- ------- ----
+SMITH    7369 FORD    7902
+ALLEN    7499 BLAKE   7698
+WARD     7521 BLAKE   7698
+JONES    7566 KING    7839
+MARTIN   7654 BLAKE   7698
+BLAKE    7698 KING    7839
+CLARK    7782 KING    7839
+SCOTT    7788 JONES   7566
+TURNER   7844 BLAKE   7698
+ADAMS    7876 SCOTT   7788
+JAMES    7900 BLAKE   7698
+FORD     7902 JONES   7566
+MILLER   7934 CLARK   7782
+
+13 rows selected.
+----------------------------------------------------------------------------------------------
+5. Outer Join (Including KING):-
+--------------------------------
+
+SQL>SELECT E.ENAME Employee,
+       E.EMPNO "Emp#",
+       M.ENAME Manager,
+       M.EMPNO "Mgr#"
+FROM EMP E
+LEFT OUTER JOIN EMP M
+ON E.MGR=M.EMPNO
+ORDER BY E.EMPNO;
+--------------------------------------------------
+OUTPUT:-
+Employee Emp# Manager Mgr#
+-------- ---- ------- ----
+SMITH    7369 FORD    7902
+ALLEN    7499 BLAKE   7698
+WARD     7521 BLAKE   7698
+JONES    7566 KING    7839
+MARTIN   7654 BLAKE   7698
+BLAKE    7698 KING    7839
+CLARK    7782 KING    7839
+SCOTT    7788 JONES   7566
+KING     7839
+TURNER   7844 BLAKE   7698
+ADAMS    7876 SCOTT   7788
+JAMES    7900 BLAKE   7698
+FORD     7902 JONES   7566
+MILLER   7934 CLARK   7782
+
+14 rows selected.
+--------------------------------------------------------------------------------------------
+6. Non-Equi Join
+------------------------------
+DESC SALGRADE;
+------------------------------
+OUTPUT:-
+Name      Null Type
+--------- ---- ------
+GRADE          NUMBER
+LOSAL          NUMBER
+HISAL          NUMBER
+---------------------------------------------------------------------------------------------------
+SQL>SELECT ENAME,
+       JOB,
+       DNAME,
+       SAL,
+       GRADE
+FROM EMP E
+JOIN DEPT D
+ON E.DEPTNO=D.DEPTNO
+JOIN SALGRADE S
+ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+-----------------------------------------
+OUTPUT:-
+---------------------------
+ENAME  JOB       DNAME       SAL GRADE
+------ --------- ---------- ---- -----
+SMITH  CLERK     RESEARCH    800   1
+ALLEN  SALESMAN  SALES      1600   3
+WARD   SALESMAN  SALES      1250   2
+JONES  MANAGER   RESEARCH   2975   4
+KING   PRESIDENT ACCOUNTING 5000   5
+
+...
+14 rows selected.
+-------------------------------------------------------------------
+7. Outer Join
+SQL>SELECT E.ENAME,
+       D.DNAME
+FROM EMP E
+RIGHT OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO
+ORDER BY D.DEPTNO, E.ENAME;
+---------------------------------------
+OUTPUT:-
+ENAME    DNAME
+-------- -----------
+CLARK    ACCOUNTING
+KING     ACCOUNTING
+MILLER   ACCOUNTING
+
+ADAMS    RESEARCH
+FORD     RESEARCH
+JONES    RESEARCH
+SCOTT    RESEARCH
+SMITH    RESEARCH
+
+ALLEN    SALES
+BLAKE    SALES
+JAMES    SALES
+MARTIN   SALES
+TURNER   SALES
+WARD     SALES
+
+         OPERATIONS
+
+15 rows selected.
+-------------------------------------------------------------------------------------------------
+8. The HR department needs to find the names and hire dates for all employees who were hired before their managers, along with their managers' names and hire dates.
+SQL>SELECT E.ENAME,
+       E.HIREDATE,
+       M.ENAME AS MANAGER,
+       M.HIREDATE AS MANAGER_HIREDATE
+FROM EMP E
+JOIN EMP M
+ON E.MGR = M.EMPNO
+WHERE E.HIREDATE < M.HIREDATE;
+-------------------------------------------
+OUTPUT:-
+ENAME    HIREDATE  MANAGER  MANAGER_HIREDATE
+-------- --------- -------- ----------------
+SMITH    17-DEC-80 FORD     03-DEC-81
+
+1 row selected.
+---------------------------------------------------------------------------------
+9. Display the EMPNO, ENAME, DNAME, LOC of employees who are working as CLERK. Use the USING clause.
+SQL>SELECT EMPNO,
+       ENAME,
+       DNAME,
+       LOC
+FROM EMP
+JOIN DEPT
+USING (DEPTNO)
+WHERE JOB = 'CLERK';
+-----------------------------------------------
+OUTPUT:-
+EMPNO ENAME   DNAME       LOC
+----- ------- ----------- ----------
+7369  SMITH   RESEARCH    DALLAS
+7876  ADAMS   RESEARCH    DALLAS
+7900  JAMES   SALES       CHICAGO
+7934  MILLER  ACCOUNTING  NEW YORK
+
+4 rows selected.
+------------------------------------------------------------------------
+10. Display the ENAME, SAL, MGR, DNAME of employees whose salary is more than 2000. Use the ON clause.
+------------------------------------------------------------------------------------------------
+SQL>SELECT ENAME,
+       SAL,
+       MGR,
+       DNAME
+FROM EMP E
+JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO
+WHERE SAL > 2000;
+---------------------------------------------------
+OUTPUT:-
+ENAME      SAL   MGR  DNAME
+-------- ----- ----- -----------
+JONES     2975  7839  RESEARCH
+BLAKE     2850  7839  SALES
+CLARK     2450  7839  ACCOUNTING
+SCOTT     3000  7566  RESEARCH
+KING      5000        ACCOUNTING
+FORD      3000  7566  RESEARCH
+
+6 rows selected.
+----------------------------------------------------------------------------------------------------
+11. Display the EMPNO, ENAME, JOB, DEPTNO, DNAME, LOC of employees. Use LEFT OUTER JOIN.
+-----------------
+SQL>SELECT EMPNO,
+       ENAME,
+       JOB,
+       E.DEPTNO,
+       DNAME,
+       LOC
+FROM EMP E
+LEFT OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+----------------------------------------
+OUTPUT:-
+EMPNO ENAME    JOB        DEPTNO DNAME        LOC
+----- -------- ---------- ------ ----------- ----------
+7369  SMITH    CLERK          20 RESEARCH    DALLAS
+7499  ALLEN    SALESMAN       30 SALES       CHICAGO
+7521  WARD     SALESMAN       30 SALES       CHICAGO
+7566  JONES    MANAGER        20 RESEARCH    DALLAS
+7654  MARTIN   SALESMAN       30 SALES       CHICAGO
+7698  BLAKE    MANAGER        30 SALES       CHICAGO
+7782  CLARK    MANAGER        10 ACCOUNTING  NEW YORK
+7788  SCOTT    ANALYST        20 RESEARCH    DALLAS
+7839  KING     PRESIDENT      10 ACCOUNTING  NEW YORK
+7844  TURNER   SALESMAN       30 SALES       CHICAGO
+7876  ADAMS    CLERK          20 RESEARCH    DALLAS
+7900  JAMES    CLERK          30 SALES       CHICAGO
+7902  FORD     ANALYST        20 RESEARCH    DALLAS
+7934  MILLER   CLERK          10 ACCOUNTING  NEW YORK
+
+14 rows selected.
+---------------------------------------------------------------------------------------------------------------
+12. Display the ENAME, DNAME of employees. Use RIGHT OUTER JOIN.
+
+----------------
+SQL>SELECT ENAME,
+       DNAME
+FROM EMP E
+RIGHT OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+-------------------------------------------
+OUTPUT:-
+ENAME    DNAME
+-------- -----------
+CLARK    ACCOUNTING
+KING     ACCOUNTING
+MILLER   ACCOUNTING
+
+SMITH    RESEARCH
+JONES    RESEARCH
+SCOTT    RESEARCH
+ADAMS    RESEARCH
+FORD     RESEARCH
+
+ALLEN    SALES
+WARD     SALES
+MARTIN   SALES
+BLAKE    SALES
+TURNER   SALES
+JAMES    SALES
+
+         OPERATIONS
+
+15 rows selected.
+----------------------------------------------------------------------------------
+13. Display the EMPNO, DNAME, LOC of employees. Use FULL OUTER JOIN.
+--------------------
+SQL>SELECT EMPNO,
+       DNAME,
+       LOC
+FROM EMP E
+FULL OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+---------------------------------
+OUTPUT:-
+EMPNO DNAME        LOC
+----- ----------- ----------
+7782  ACCOUNTING  NEW YORK
+7839  ACCOUNTING  NEW YORK
+7934  ACCOUNTING  NEW YORK
+
+7369  RESEARCH    DALLAS
+7566  RESEARCH    DALLAS
+7788  RESEARCH    DALLAS
+7876  RESEARCH    DALLAS
+7902  RESEARCH    DALLAS
+
+7499  SALES       CHICAGO
+7521  SALES       CHICAGO
+7654  SALES       CHICAGO
+7698  SALES       CHICAGO
+7844  SALES       CHICAGO
+7900  SALES       CHICAGO
+
+      OPERATIONS  BOSTON
+
+15 rows selected.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
