@@ -1,0 +1,444 @@
+SQL> CREATE TABLE DEPT
+  2  (
+  3      DEPTNO NUMBER(2),
+  4      DNAME VARCHAR2(14),
+  5      LOC VARCHAR2(13)
+  6  );
+
+Table created.
+
+SQL> INSERT INTO DEPT VALUES (10,'ACCOUNTING','NEW YORK');
+
+1 row created.
+
+SQL> SELECT * FROM DEPT;
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+
+4 rows selected.
+------------------------------
+SQL> SELECT * FROM EMP;
+
+ EMPNO ENAME   JOB          MGR HIREDATE       SAL   COMM DEPTNO
+------ ------- --------- ------ --------- -------- ------ ------
+  7369 SMITH   CLERK       7902 17-DEC-80     800          20
+  7499 ALLEN   SALESMAN    7698 20-FEB-81    1600    300   30
+  7521 WARD    SALESMAN    7698 22-FEB-81    1250    500   30
+  7566 JONES   MANAGER     7839 02-APR-81    2975          20
+  7654 MARTIN  SALESMAN    7698 28-SEP-81    1250   1400   30
+  7698 BLAKE   MANAGER     7839 01-MAY-81    2850          30
+  7782 CLARK   MANAGER     7839 09-JUN-81    2450          10
+  7788 SCOTT   ANALYST     7566 19-APR-87    3000          20
+  7839 KING    PRESIDENT        17-NOV-81    5000          10
+  7844 TURNER  SALESMAN    7698 08-SEP-81    1500      0   30
+  7876 ADAMS   CLERK       7788 23-MAY-87    1100          20
+  7900 JAMES   CLERK       7698 03-DEC-81     950          30
+  7902 FORD    ANALYST     7566 03-DEC-81    3000          20
+  7934 MILLER  CLERK       7782 23-JAN-82    1300          10
+
+14 rows selected.
+----------------------------------------
+Assignment 1
+Objective
+
+Display the employee name, salary, and commission for employees who earn a commission. Sort the results by Salary (descending) and then Commission (descending) using column numbers in the ORDER BY clause.
+
+SQL Query:-
+-----
+SQL> SELECT ENAME,SAL,COMM
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL
+  4  ORDER BY 2 DESC,3 DESC;
+
+  output:-
+  -----------
+  ENAME           SAL       COMM
+---------- --------- ----------
+ALLEN          1600        300
+TURNER         1500          0
+MARTIN         1250       1400
+WARD           1250        500
+
+4 rows selected.
+------------------------------
+Assignment 2
+Objective
+
+Display all unique job codes from the EMP table.
+
+SQL Query
+SQL> SELECT DISTINCT JOB
+  2  FROM EMP;
+  -----------------------------
+  output:-
+    -----------
+    JOB
+---------
+CLERK
+SALESMAN
+MANAGER
+ANALYST
+PRESIDENT
+
+5 rows selected.
+------------------------------
+Assignment 3
+Objective
+
+Display employee number, employee name, job, and hire date with user-friendly column headings.
+
+SQL Query:-
+SQL> SELECT EMPNO AS "Emp #",
+  2         ENAME AS "Employee",
+  3         JOB AS "Job",
+  4         HIREDATE AS "Hire Date"
+  5  FROM EMP;
+  -----------------------------
+  output:-
+  Emp #  Employee   Job         Hire Date
+-----  ---------  ----------  ---------
+7369   SMITH      CLERK       17-DEC-80
+7499   ALLEN      SALESMAN    20-FEB-81
+7521   WARD       SALESMAN    22-FEB-81
+7566   JONES      MANAGER     02-APR-81
+7654   MARTIN     SALESMAN    28-SEP-81
+7698   BLAKE      MANAGER     01-MAY-81
+7782   CLARK      MANAGER     09-JUN-81
+7788   SCOTT      ANALYST     19-APR-87
+7839   KING       PRESIDENT   17-NOV-81
+7844   TURNER     SALESMAN    08-SEP-81
+7876   ADAMS      CLERK       23-MAY-87
+7900   JAMES      CLERK       03-DEC-81
+7902   FORD       ANALYST     03-DEC-81
+7934   MILLER     CLERK       23-JAN-82
+
+14 rows selected.
+------------------------------------
+Assignment 4
+Objective
+
+Display employee name concatenated with job title separated by a comma and a space.
+
+SQL Query:-
+-----
+SQL> SELECT ENAME||', '||JOB AS "Employee and Title"
+  2  FROM EMP;
+  -------------
+  output:-
+    -----------
+    Employee and Title
+----------------------------
+SMITH, CLERK
+ALLEN, SALESMAN
+WARD, SALESMAN
+JONES, MANAGER
+MARTIN, SALESMAN
+BLAKE, MANAGER
+CLARK, MANAGER
+SCOTT, ANALYST
+KING, PRESIDENT
+TURNER, SALESMAN
+ADAMS, CLERK
+JAMES, CLERK
+FORD, ANALYST
+MILLER, CLERK
+
+14 rows selected.
+-----------------------------
+Assignment 5
+Objective
+
+Display employee name, job, hire date, and manager number as a single column separated by commas. Name the column THE_OUTPUT.
+
+SQL Query:-
+---------
+SQL> SELECT ENAME||','||JOB||','||HIREDATE||','||MGR
+  2  AS THE_OUTPUT
+  3  FROM EMP;
+  -------------
+  output:-
+    -----------
+    THE_OUTPUT
+---------------------------------------------
+SMITH,CLERK,17-DEC-80,7902
+ALLEN,SALESMAN,20-FEB-81,7698
+WARD,SALESMAN,22-FEB-81,7698
+JONES,MANAGER,02-APR-81,7839
+MARTIN,SALESMAN,28-SEP-81,7698
+BLAKE,MANAGER,01-MAY-81,7839
+CLARK,MANAGER,09-JUN-81,7839
+SCOTT,ANALYST,19-APR-87,7566
+KING,PRESIDENT,17-NOV-81,
+TURNER,SALESMAN,08-SEP-81,7698
+ADAMS,CLERK,23-MAY-87,7788
+JAMES,CLERK,03-DEC-81,7698
+FORD,ANALYST,03-DEC-81,7566
+MILLER,CLERK,23-JAN-82,7782
+
+14 rows selected.
+-------------------------------
+Assignment 6
+Objective
+
+Display the employee name, job, and hire date for employees SCOTT or TURNER. Sort the results in ascending order of hire date.
+
+SQL Query
+SQL> SELECT ENAME, JOB, HIREDATE
+  2  FROM EMP
+  3  WHERE ENAME IN ('SCOTT','TURNER')
+  4  ORDER BY HIREDATE;
+  -------------
+  output:-
+    -----------
+    ENAME      JOB         HIREDATE
+---------- ---------- ---------
+TURNER     SALESMAN   08-SEP-81
+SCOTT      ANALYST    19-APR-87
+
+2 rows selected.
+-----------------------------------------
+Assignment 7
+Objective
+
+Display the employee name and department number of employees working in Department 20 or Department 30, arranged in alphabetical order by employee name.
+
+SQL Query:-
+-----------
+SQL> SELECT ENAME, DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO IN (20,30)
+  4  ORDER BY ENAME;
+  ---------------------------
+  output:-
+    -----------
+    ENAME      DEPTNO
+---------- ------
+ADAMS         20
+ALLEN         30
+BLAKE         30
+FORD          20
+JAMES         30
+JONES         20
+MARTIN        30
+SCOTT         20
+SMITH         20
+TURNER        30
+WARD          30
+
+11 rows selected.
+-------------------------------------------
+Assignment 8
+Objective
+
+Display the employee name and salary of employees who earn between 2000 and 3000 and belong to Department 20 or 30. Use column aliases Employee and Monthly Salary.
+
+SQL Query:-
+--------------
+SQL> SELECT ENAME AS "Employee",
+  2         SAL AS "Monthly Salary"
+  3  FROM EMP
+  4  WHERE SAL BETWEEN 2000 AND 3000
+  5  AND DEPTNO IN (20,30);
+  --------------
+  output:-
+    -----------
+Employee     Monthly Salary
+------------ --------------
+JONES              2975
+SCOTT              3000
+BLAKE              2850
+FORD               3000
+
+4 rows selected.
+-------------------------------
+Assignment 9
+Objective
+
+Display the employee name and hire date of employees who were hired in 1981.
+
+SQL Query:-
+---------------
+SQL> SELECT ENAME, HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE BETWEEN
+  4  TO_DATE('01-JAN-1981','DD-MON-YYYY')
+  5  AND TO_DATE('31-DEC-1981','DD-MON-YYYY');
+  ----------------- 
+  output:-
+    -----------
+ENAME      HIREDATE
+---------- ---------
+ALLEN      20-FEB-81
+WARD       22-FEB-81
+JONES      02-APR-81
+BLAKE      01-MAY-81
+CLARK      09-JUN-81
+TURNER     08-SEP-81
+MARTIN     28-SEP-81
+KING       17-NOV-81
+JAMES      03-DEC-81
+FORD       03-DEC-81
+
+10 rows selected.
+--------------------------------------
+Assignment 10
+Objective
+
+Display the employee name and salary of employees who earn more than the salary entered by the user.
+
+SQL Query:-
+-----------------
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > &SALARY;
+  --------------------
+INPUT:-Enter value for SALARY: 2000
+ output:-
+    -----------
+    ENAME      SAL
+---------- -----
+JONES      2975
+BLAKE      2850
+CLARK      2450
+SCOTT      3000
+KING       5000
+FORD       3000
+
+6 rows selected.
+------------------------------
+Assignment 11
+Objective
+
+Display the employee name and job of employees who do not have a manager.
+
+SQL Query:-
+-------------
+SQL> SELECT ENAME, JOB
+  2  FROM EMP
+  3  WHERE MGR IS NULL;
+  -----------------
+  OUTPUT:-
+    -----------
+ENAME      JOB
+---------- ----------
+KING       PRESIDENT
+
+1 row selected.
+-----------------------------------------
+Assignment 12
+Objective
+
+Prompt the user to enter a Manager ID and display EMPNO, ENAME, SAL, DEPTNO. Allow the user to sort the results by a selected column.
+
+SQL Query:-
+------------------
+SQL> SELECT EMPNO, ENAME, SAL, DEPTNO
+  2  FROM EMP
+  3  WHERE MGR=&MGRID
+  4  ORDER BY &COLUMN;
+  -------------------------------
+  INPUT:-Enter value for MGRID: 7698
+  Enter value for COLUMN: SAL
+
+  OUTPUT:-
+    -----------
+EMPNO ENAME      SAL DEPTNO
+----- ---------- ---- ------
+7521  WARD       1250     30
+7654  MARTIN     1250     30
+7844  TURNER     1500     30
+7499  ALLEN      1600     30
+
+4 rows selected.
+------------------------
+Assignment 13
+Objective
+
+Prompt the user for a Manager ID and display the employee number, employee name, salary, and department number of employees working under that manager. Allow sorting by a selected column.
+
+SQL Query:-
+---------------
+SQL> SELECT EMPNO, ENAME, SAL, DEPTNO
+  2  FROM EMP
+  3  WHERE MGR=&MGR
+  4  ORDER BY &COLUMN;
+----------------------------------------
+INPUT:-Enter value for MGR: 7566
+Enter value for COLUMN: ENAME
+OUTPUT:-
+    -----------
+EMPNO ENAME      SAL DEPTNO
+----- ---------- ---- ------
+7902  FORD       3000     20
+7788  SCOTT      3000     20
+
+2 rows selected.
+------------------------------------------
+Assignment 14
+Objective
+
+Display employee names where the third letter is 'A'.
+
+SQL Query
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE ENAME LIKE '__A%';
+  ----------------------------------
+  OUTPUT:-
+    -----------
+ENAME
+----------
+BLAKE
+CLARK
+ADAMS
+
+3 rows selected.
+------------------------------
+Assignment 15
+Objective
+
+Display employee names that contain both the letters A and S.
+
+SQL Query:-
+-----------------
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%A%'
+  4  AND ENAME LIKE '%S%';
+  -----------------
+  OUTPUT:-
+    -----------
+ENAME
+----------
+ADAMS
+JAMES
+
+2 rows selected.
+------------------------------
+Assignment 16
+Objective
+
+Display the employee name, job, and salary of employees whose job is CLERK and whose salary is 800, 950, or 1300.
+
+SQL Query:-
+--------------
+SQL> SELECT ENAME, JOB, SAL
+  2  FROM EMP
+  3  WHERE JOB='CLERK'
+  4  AND SAL IN (800,950,1300);
+  -----------------------------------------
+  OUTPUT:-
+    -----------
+ENAME      JOB        SAL
+---------- -------- ----
+SMITH      CLERK      800
+JAMES      CLERK      950
+MILLER     CLERK     1300
+
+3 rows selected.
+-------------------------------------------------------------------
