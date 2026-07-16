@@ -1,0 +1,214 @@
+
+SQL> create table employee(eid int primary key , ename varchar(10) , salary int ,address varchar2(7));
+
+Table created.
+
+SQL> desc employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL NUMBER(38)
+ ENAME                                             VARCHAR2(10)
+ SALARY                                            NUMBER(38)
+ ADDRESS                                           VARCHAR2(7)
+
+SQL> select * from employee
+  2  ;
+
+no rows selected
+
+SQL> insert into employee values(101,'raghu',20000,'cic');
+
+1 row created.
+
+SQL> insert into employee values(102,'ravi',30000,'cse');
+
+1 row created.
+
+SQL> insert into employee values(103,'rajesh',25000,'ece');
+
+1 row created.
+
+SQL> insert into employee values(103,'raj',28000,'II');
+insert into employee values(103,'raj',28000,'II')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C008321) violated
+
+
+SQL> insert into employee values(103,'ram',28000,'II');
+insert into employee values(103,'ram',28000,'II')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C008321) violated
+
+
+SQL> select * from employee
+  2  ;
+
+       EID ENAME          SALARY ADDRESS
+---------- ---------- ---------- -------
+       101 raghu           20000 cic
+       102 ravi            30000 cse
+       103 rajesh          25000 ece
+
+SQL> insert into employee values(104,'sharif',35000,'IT');
+
+1 row created.
+
+SQL> select * from employee;
+
+       EID ENAME          SALARY ADDRESS
+---------- ---------- ---------- -------
+       101 raghu           20000 cic
+       102 ravi            30000 cse
+       103 rajesh          25000 ece
+       104 sharif          35000 IT
+
+SQL> select * from employee where address = 'cse';
+
+       EID ENAME          SALARY ADDRESS
+---------- ---------- ---------- -------
+       102 ravi            30000 cse
+
+SQL> select * from employee where salary > 30000;
+
+       EID ENAME          SALARY ADDRESS
+---------- ---------- ---------- -------
+       104 sharif          35000 IT
+
+SQL> select * from employee where salary > 30000 AND address = 'IT';
+
+       EID ENAME          SALARY ADDRESS
+---------- ---------- ---------- -------
+       104 sharif          35000 IT
+
+SQL> select * from employee where salary > 30000 OR address = 'IT';
+
+       EID ENAME          SALARY ADDRESS
+---------- ---------- ---------- -------
+       104 sharif          35000 IT
+
+SQL> select * from employee where salary IS NULL;
+
+no rows selected
+
+SQL> select DISTINCT salary from employees;
+
+no rows selected
+
+SQL> select DISTINCT salary from employee;
+
+    SALARY
+----------
+     20000
+     30000
+     25000
+     35000
+
+SQL> select eid,salary from employee where ename ='Raghu';
+
+no rows selected
+
+SQL> select eid,salary from employee where ename ='raghu';
+
+       EID     SALARY
+---------- ----------
+       101      20000
+
+SQL> select eid as "Employee Id" , ename as "Employee Name" from employee;
+
+Employee Id Employee N
+----------- ----------
+        101 raghu
+        102 ravi
+        103 rajesh
+        104 sharif
+
+SQL> column "Employee Name" format A15;
+SQL> select eid as "Employee Id" , ename as "Employee Name" from employee;
+
+Employee Id Employee Name
+----------- ---------------
+        101 raghu
+        102 ravi
+        103 rajesh
+        104 sharif
+
+SQL> select ename || ' , ' || address as "Employee Details from employee;
+ERROR:
+ORA-01740: missing double quote in identifier
+
+
+SQL> select ename || ' , ' || address as "Employee Details" from employee;
+
+Employee Details
+--------------------
+raghu , cic
+ravi , cse
+rajesh , ece
+sharif , IT
+
+SQL> select eid || ' , '|| ename || ' , ' || address as "Employee Details" from employee;
+
+Employee Details
+---------------------------------------------------------------
+101 , raghu , cic
+102 , ravi , cse
+103 , rajesh , ece
+104 , sharif , IT
+
+SQL> select eid,ename from employee where address IN ('cse' , 'IT','cic');
+
+       EID ENAME
+---------- ----------
+       101 raghu
+       102 ravi
+       104 sharif
+
+SQL> select eid,ename,address from employee where address IN ('cse' , 'IT','cic');
+
+       EID ENAME      ADDRESS
+---------- ---------- -------
+       101 raghu      cic
+       102 ravi       cse
+       104 sharif     IT
+
+SQL> select eid,ename,address from employee where address NOT IN ('cse' , 'IT','cic');
+
+       EID ENAME      ADDRESS
+---------- ---------- -------
+       103 rajesh     ece
+
+SQL> select eid,ename from employee where salary between 20000 AND 35000;
+
+       EID ENAME
+---------- ----------
+       101 raghu
+       102 ravi
+       103 rajesh
+       104 sharif
+
+SQL> select eid,ename from employee where salary between 30000 AND 35000;
+
+       EID ENAME
+---------- ----------
+       102 ravi
+       104 sharif
+
+SQL> select eid,ename,salary from employee where salary =& salary;
+Enter value for salary: 35000
+old   1: select eid,ename,salary from employee where salary =& salary
+new   1: select eid,ename,salary from employee where salary =35000
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       104 sharif          35000
+
+SQL> select eid,ename,salary,address from employee where salary =& salary;
+Enter value for salary: 20000
+old   1: select eid,ename,salary,address from employee where salary =& salary
+new   1: select eid,ename,salary,address from employee where salary =20000
+
+       EID ENAME          SALARY ADDRESS
+---------- ---------- ---------- -------
+       101 raghu           20000 cic

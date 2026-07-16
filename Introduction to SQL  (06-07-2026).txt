@@ -1,0 +1,144 @@
+Introduction to SQL:  (06-07-2026)
+
+---------------------
+
+SQL
+
+Installing Oracle  (Installed)
+
+Installing SQL Developer  (Installed -Optional)
+
+Connecting SQL Developer  
+
+Creating a sample database
+
+creating new user in database
+ 
+New User:
+
+----------
+
+SQL>create user username identified by password;
+ 
+SQL>create user aruna_db identified by aruna;
+ 
+Create user from the data base administrator only
+ 
+SQL> show user
+ 
+SQL>connect / as sysdba
+ 
+SQL> create user mydb identified by mydb;
+ 
+SQL> alter user mydb identified by mydb;
+ 
+SQL>GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW,
+
+      CREATE SEQUENCE, CREATE PROCEDURE TO mydb;
+ 
+SQL>GRANT UNLIMITED TABLESPACE TO mydb;
+ 
+Now connect:
+ 
+SQL>CONNECT mydb/mydb
+ 
+If you mean a completely new Oracle database
+ 
+To know the current database name:
+
+----------------------------------
+
+SQL> SELECT SYS_CONTEXT('USERENV','CON_NAME') FROM DUAL;
+ 
+To know the current database is DBA or not:
+
+--------------------------------------------
+
+SQL> select userenv('isdba') from dual;
+ 
+ 
+Create a New Database:
+
+-------------
+
+Step 1: Open DBCA
+
+Press Windows and search for Database Configuration Assistant or DBCA.
+
+Open it as Administrator.
+ 
+If you can't find it, it is usually located at:
+ 
+C:\app\<username>\product\19.0.0\dbhome_1\bin\dbca.bat
+ 
+(or wherever you installed Oracle 19c).
+ 
+Step 2: Create a new database
+
+Select Create Database.
+
+Click Next.
+
+Choose Advanced Configuration (recommended for learning) or Typical Configuration (simpler).
+
+Click Next.
+
+Step 3: Enter database details
+ 
+For example:
+ 
+Global Database Name: MYDB
+
+SID: MYDB
+ 
+Click Next.
+ 
+Step 4: Set passwords
+ 
+Set passwords for:
+ 
+SYS
+
+SYSTEM
+ 
+You can use the same password for all administrative accounts if this is just a practice environment.
+ 
+Step 5: Storage
+ 
+Choose:
+ 
+Use File System
+
+Keep the default Oracle Managed Files location unless you want a different location.
+
+Step 6: Finish
+ 
+Review the summary and click Finish.
+ 
+DBCA will:
+ 
+Create the database
+
+Create the data files
+
+Create the control files
+
+Create the redo log files
+
+Start the database
+
+Register the listener
+ 
+This may take several minutes.
+ 
+Step 7: Connect to the new database
+ 
+After creation:
+ 
+sqlplus sys/<your_password>@MYDB as sysdba
+ 
+or
+ 
+CONNECT SYS/<your_password>@MYDB AS SYSDBA;
+ 
+ 

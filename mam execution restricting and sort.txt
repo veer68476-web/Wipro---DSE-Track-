@@ -1,0 +1,246 @@
+SQL> select * from employee where address='CSE';
+ 
+       EID ENAME          SALARY ADDRESS
+
+---------- ---------- ---------- -------
+
+       100 Arun            20000 CSE
+ 
+SQL> select * from employee where salary>30000;
+ 
+       EID ENAME          SALARY ADDRESS
+
+---------- ---------- ---------- -------
+
+       102 Ram             35000 IT
+
+       103 Sujan           45000 AIML
+
+       104 Sujan           45000
+ 
+SQL> select * from employee where salary>30000 AND address='IT';
+ 
+       EID ENAME          SALARY ADDRESS
+
+---------- ---------- ---------- -------
+
+       102 Ram             35000 IT
+ 
+SQL> select * from employee where salary>30000 OR address='IT';
+ 
+       EID ENAME          SALARY ADDRESS
+
+---------- ---------- ---------- -------
+
+       102 Ram             35000 IT
+
+       103 Sujan           45000 AIML
+
+       104 Sujan           45000
+ 
+SQL> select * from employee where salary IS NULL;
+ 
+       EID ENAME          SALARY ADDRESS
+
+---------- ---------- ---------- -------
+
+       105 Shlok                 AID
+ 
+SQL> select * from employee where salary IS NOT NULL;
+ 
+       EID ENAME          SALARY ADDRESS
+
+---------- ---------- ---------- -------
+
+       100 Arun            20000 CSE
+
+       101 Arjun           25000 ECE
+
+       102 Ram             35000 IT
+
+       103 Sujan           45000 AIML
+
+       104 Sujan           45000
+ 
+SQL> select DISTINCT salary from employee;
+ 
+    SALARY
+
+----------
+
+     20000
+
+     25000
+
+     35000
+
+     45000
+ 
+ 
+SQL> select eid,salary from employee where ename='arjun';
+ 
+no rows selected
+ 
+SQL> select eid,salary from employee where ename='Arjun';
+ 
+       EID     SALARY
+
+---------- ----------
+
+       101      25000
+ 
+SQL> select eid as "Employee Id", ename as "Employee Name" from employee;
+ 
+Employee Id Employee N
+
+----------- ----------
+
+        100 Arun
+
+        101 Arjun
+
+        102 Ram
+
+        103 Sujan
+
+        104 Sujan
+
+        105 Shlok
+ 
+6 rows selected.
+ 
+SQL> column "Employee Name" format A20;
+
+SQL> select eid as "Employee Id", ename as "Employee Name" from employee;
+ 
+Employee Id Employee Name
+
+----------- --------------------
+
+        100 Arun
+
+        101 Arjun
+
+        102 Ram
+
+        103 Sujan
+
+        104 Sujan
+
+        105 Shlok
+ 
+6 rows selected.
+ 
+SQL> select ename || ', '|| address as "Employee Details" from employee;
+ 
+Employee Details
+
+-------------------
+
+Arun, CSE
+
+Arjun, ECE
+
+Ram, IT
+
+Sujan, AIML
+
+Sujan,
+
+Shlok, AID
+ 
+6 rows selected.
+ 
+SQL> select eid ||', '||ename || ', '|| address as "Employee Details" from employee;
+ 
+Employee Details
+
+-------------------------------------------------------------
+
+100, Arun, CSE
+
+101, Arjun, ECE
+
+102, Ram, IT
+
+103, Sujan, AIML
+
+104, Sujan,
+
+105, Shlok, AID
+ 
+6 rows selected.
+ 
+SQL> select eid,ename from employee where address IN ('CSE', 'IT');
+ 
+       EID ENAME
+
+---------- ----------
+
+       100 Arun
+
+       102 Ram
+ 
+SQL> select eid,ename,address from employee where address IN ('CSE', 'IT');
+ 
+       EID ENAME      ADDRESS
+
+---------- ---------- -------
+
+       100 Arun       CSE
+
+       102 Ram        IT
+ 
+SQL> select eid,ename,address from employee where address NOT IN ('CSE', 'IT');
+ 
+       EID ENAME      ADDRESS
+
+---------- ---------- -------
+
+       101 Arjun      ECE
+
+       103 Sujan      AIML
+
+       105 Shlok      AID
+ 
+SQL> select eid,ename,salary from employee where salary  between 25000 AND 45000;
+ 
+       EID ENAME          SALARY
+
+---------- ---------- ----------
+
+       101 Arjun           25000
+
+       102 Ram             35000
+
+       103 Sujan           45000
+
+       104 Sujan           45000
+ 
+SQL> select eid,ename,salary from employee where salary  between 35000 AND 45000;
+ 
+       EID ENAME          SALARY
+
+---------- ---------- ----------
+
+       102 Ram             35000
+
+       103 Sujan           45000
+
+       104 Sujan           45000
+ 
+SQL> select eid,ename,salary from employee where salary=&salary;
+
+Enter value for salary: 35000
+
+old   1: select eid,ename,salary from employee where salary=&salary
+
+new   1: select eid,ename,salary from employee where salary=35000
+ 
+       EID ENAME          SALARY
+
+---------- ---------- ----------
+
+       102 Ram             35000
+
+ 

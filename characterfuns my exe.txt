@@ -1,0 +1,119 @@
+
+SQL> select upper('raghu veer') from dual;
+
+UPPER('RAG
+----------
+RAGHU VEER
+
+SQL> select upper('raghu veer') as Name from dual;
+
+NAME
+----------
+RAGHU VEER
+
+SQL> select lower('RAGHU') as Name from dual;
+
+NAME
+-----
+raghu
+
+SQL> select initcap('raghu veer') as Name from dual;
+
+NAME
+----------
+Raghu Veer
+
+SQL> select length('raghu veer') as Name_of_the_length from dual;
+
+NAME_OF_THE_LENGTH
+------------------
+                10
+
+SQL> select substr('raghu veer') as sub_string from dual;
+select substr('raghu veer') as sub_string from dual
+       *
+ERROR at line 1:
+ORA-00938: not enough arguments for function
+
+
+SQL> select substr('raghu veer'3,9) as sub_string from dual;
+select substr('raghu veer'3,9) as sub_string from dual
+                          *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> select substr('raghu veer'3,8) as sub_string from dual;
+select substr('raghu veer'3,8) as sub_string from dual
+                          *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> select substr('raghu veer',3,8) as sub_string from dual;
+
+SUB_STRI
+--------
+ghu veer
+
+SQL> select instr('raghu veer','r') as in_string from dual;
+
+ IN_STRING
+----------
+         1
+
+SQL> select concat('raghu veer','varma') as FULLNAME from dual;
+
+FULLNAME
+---------------
+raghu veervarma
+
+SQL> select concat('raghu veer',' varma') as FULLNAME from dual;
+
+FULLNAME
+----------------
+raghu veer varma
+
+SQL> select REPLACE('raghu veer','r','x')  from dual; from
+  2
+SQL> select REPLACE('raghu veer','r','x')  from dual;
+
+REPLACE('R
+----------
+xaghu veex
+
+SQL> select lpad('orange',5,'*')  from dual;
+
+LPAD(
+-----
+orang
+
+SQL> select lpad('orange',5,'*')  as padding from dual;
+
+PADDI
+-----
+orang
+
+SQL> select lpad('orange',10,'*')  as padding from dual;
+
+PADDING
+----------
+****orange
+
+SQL> select rpad('orange',10,'*')  as padding from dual;
+
+PADDING
+----------
+orange****
+
+SQL> select trim('       orange         ') from dual;
+
+TRIM('
+------
+orange
+
+SQL> select length('       orange         ') from dual;
+
+LENGTH('ORANGE')
+----------------
+              22

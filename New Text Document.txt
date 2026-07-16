@@ -1,0 +1,173 @@
+Retrieving Data using SELECT statement: (07-07-2026)
+
+---------------------------------------
+
+View Data using SELECT statement
+
+Arithmetic Operators
+
+Column Alias
+
+Null Values
+ 
+SQL Commands:
+
+-------------
+
+1. DDL  (CRETAE, ALTER, DROP, TRUNCATE, RENAME)
+
+2. DML  (INSERT, DELETE AND UPDATE)
+
+3. DQL  (SELECT, WHERE CLAUSE, GROUP BY, ORDER BY, HAVING, DISTINCT, JOIN)
+
+4. DCL  (GRANT, REVOKE)
+
+5. TCL  (COMMIT, ROLLBACK, SAVEPOINT)
+ 
+SELECT :
+
+----------
+
+SELECT * FROM TABLENAME;
+ 
+SELECT COL1,COL2,...., COLN FROM TABLE NAME;
+ 
+SELECT DISTINCT COLNAME FROM TABLENAME;
+ 
+SELECT COL1, COL2 .... FROM TABLE NAME WHERE CONDITION;
+ 
+SELECT COL1, COL2,....COLN FROM TABLE NAME GROUP BY COLNAME HAVING CONDITION;
+ 
+SELECT * FROM TABLENAME ORDER BY COLUMNNNAME DESC;
+ 
+ASC/DESC
+ 
+DEFAULT:ASC
+ 
+ 
+Examples:
+
+----------
+
+SQL> select * from emp;
+ 
+       EID ENAME         ESALARY ADDRESS
+
+---------- ---------- ---------- ----------
+
+       101 Aruna sri       50000 guntur
+
+       102 Ram             40000 Vij
+
+       103 Ram             40000
+
+       104                 60000
+ 
+SQL> select eid, ename from emp;
+ 
+       EID ENAME
+
+---------- ----------
+
+       101 Aruna sri
+
+       102 Ram
+
+       103 Ram
+
+       104
+ 
+SQL> select eid, ename from emp where esalary=40000;
+ 
+       EID ENAME
+
+---------- ----------
+
+       102 Ram
+
+       103 Ram
+ 
+SQL> select distinct ename from emp;
+ 
+ENAME
+
+----------
+
+Ram
+
+Aruna sri
+ 
+Arithmetic Operators & Column Alias
+
+------------------------------------
+
++
+
+-
+
+*
+
+/
+ 
+Example:
+
+--------
+
+SQL> select eid, esalary+2500 as New_Salary from emp where eid=101;
+ 
+       EID NEW_SALARY
+
+---------- ----------
+
+       101      52500
+ 
+ 
+SQL> select eid, esalary+2500 as "New Salary" from emp where eid=101;
+ 
+       EID New Salary
+
+---------- ----------
+
+       101      52500
+ 
+Null Values:
+
+---------------
+
+Its not equal to '0'
+ 
+Missing value
+
+Unknown
+
+Unavailable
+ 
+1. IS NULL
+
+2. IS NOT NULL
+ 
+Example:
+
+--------
+
+SQL> select * from emp where ename IS NULL;
+ 
+       EID ENAME         ESALARY ADDRESS
+
+---------- ---------- ---------- ----------
+
+       104                 60000
+ 
+SQL> select * from emp where ename IS not NULL;
+ 
+       EID ENAME         ESALARY ADDRESS
+
+---------- ---------- ---------- ----------
+
+       101 Aruna sri       50000 guntur
+
+       102 Ram             40000 Vij
+
+       103 Ram             40000
+ 
+ 
